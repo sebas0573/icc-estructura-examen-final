@@ -1,32 +1,37 @@
 package main.controllers;
 
+import main.models.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import main.models.Estudiante;
 import java.util.List;
 
 public class EstudianteController {
+    public HashMap<String, List<Estudiante>> procesarEstudiantes(Estudiante[] estudiantes) {
+        HashMap<String, List<Estudiante>> resultado = new HashMap<>();
 
-    public HashMap procesarEstudiantes(Estudiante[] estudiantes){
-        HashMap<String, List<Estudiante>> estudiante = new HashMap<>();
-        for(Estudiante categorias : estudiantes){
-            String cate = obtenerCategoria(estudiante.getCalificacion());
-            if(cate.contains(cate)){
-                cate.put(new ArrayList<>());
+        for (Estudiante estudiante : estudiantes) {
+            String categoria = obtenerCategoria(estudiante.getCalificacion());
 
-            }
-            return estudiante;
+            resultado.computeIfAbsent(categoria, k -> new ArrayList<>()).add(estudiante);
         }
+
+        return resultado;
     }
-    private String obtenerCategoria(int calificacion){
-        if(calificacion<70){
-            return "C";
-        }else if(calificacion<80){
-            return "B";
-        }else{
+
+    public String obtenerCategoria(int calificacion) {
+        if (calificacion >= 90) {
             return "A";
+        } else if (calificacion >= 80) {
+            return "B";
+        } else if (calificacion >= 70) {
+            return "C";
+        } else if (calificacion >= 60) {
+            return "D";
+        } else {
+            return "F";
         }
     }
-    
 }
+
+
